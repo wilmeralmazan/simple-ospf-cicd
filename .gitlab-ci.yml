@@ -1,0 +1,39 @@
+stages:
+  - deploy_test
+  - test
+  - deploy_prod
+
+before_script:
+  - apt-get update -qy
+  - apt-get install -y python3-pip  # Install Python3 (if not already installed)
+  - apt install python3-venv -y
+  - python3 -m venv env
+  - source env/bin/activate
+  - pip install ansible 
+  - pip install paramiko
+
+deploy_test:
+  stage: deploy_test
+  script:
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    - ansible-playbook -i hosts_test config_test.yml -v
+  only:
+    - master  # Specify the branch where you want the pipeline to run
+
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    - ansible-playbook -i hosts_test tests.yml  # Run the test playbook
+  only:
+    - master  # Specify the branch where you want to run the tests
+
+deploy_prod:
+  stage: deploy_prod
+  script:
+    - export ANSIBLE_HOST_KEY_CHECKING=False
+    - ansible-playbook -i hosts_prod config_prod.yml -v
+  only:
+    - master  # Specify the branch where you want the pipeline to run
+

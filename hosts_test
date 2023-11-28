@@ -1,0 +1,4 @@
+[routers_test]
+winnipeg_router ansible_host=<ip> ansible_port=<port>
+calgary_router ansible_host=<ip> ansible_port=<port>
+toronto_router ansible_host=<ip> ansible_port=<port>

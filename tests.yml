@@ -1,0 +1,23 @@
+---
+- name: "Test OSPF Neighbors with Delay and Debug"
+  hosts: routers_test
+  gather_facts: no
+  tasks:
+    - name: Get OSPF Neighbors
+      ios_command:
+        commands:
+          - show ip ospf neighbor
+      register: ospf_neighbors
+
+    - name: Wait for 10 seconds (adjust as needed)
+      pause:
+        seconds: 10
+
+    - name: Debug OSPF Neighbors
+      debug:
+        var: ospf_neighbors.stdout_lines
+
+    - name: Check Number of OSPF Neighbors
+      assert:
+        that: ospf_neighbors.stdout_lines[0] | length >= 3
+        msg: "Expected at least 2 OSPF neighbors, but found fewer."

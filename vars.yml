@@ -1,0 +1,26 @@
+---
+winnipeg_router:
+  router_id: "10.255.255.1"
+  interfaces:
+    - { interface: "GigabitEthernet0/0", desc: "Link to Calgary", ip: "10.0.0.1", mask: "255.255.255.252", area: 0, passive: false, enabled: true }
+    - { interface: "GigabitEthernet0/1", desc: "Link to Toronto", ip: "10.0.0.5", mask: "255.255.255.252", area: 1, passive: false, enabled: true }
+    - { interface: "GigabitEthernet0/2", desc: "LAN", ip: "10.1.1.1", mask: "255.255.255.0", area: 0, passive: true, enabled: true }
+    - { interface: "Loopback0", desc: "Router ID", ip: "10.255.255.1", mask: "255.255.255.255", area: 0, passive: true, enabled: true }
+calgary_router:
+  router_id: "10.255.255.2"
+  interfaces:
+    - { interface: "GigabitEthernet0/0", desc: "Link to Winnipeg", ip: "10.0.0.2", mask: "255.255.255.252", area: 0, passive: false, enabled: true }
+    - { interface: "GigabitEthernet0/1", desc: "Link to Toronto", ip: "10.0.0.9", mask: "255.255.255.252", area: 0, passive: false, enabled: true }
+    - { interface: "GigabitEthernet0/2", desc: "LAN", ip: "10.2.2.1", mask: "255.255.255.0", area: 0, passive: true, enabled: true }
+    - { interface: "Loopback0", desc: "Router ID", ip: "10.255.255.2", mask: "255.255.255.255", area: 0, passive: true, enabled: true }
+toronto_router:
+  router_id: "10.255.255.3"
+  interfaces:
+    - { interface: "GigabitEthernet0/0", desc: "Link to Winnipeg", ip: "10.0.0.6", mask: "255.255.255.252", area: 1, passive: false, enabled: true }
+    - { interface: "GigabitEthernet0/1", desc: "Link to Calgary", ip: "10.0.0.10", mask: "255.255.255.252", area: 0, passive: false, enabled: true }
+    - { interface: "GigabitEthernet0/2", desc: "LAN", ip: "10.3.3.1", mask: "255.255.255.0", area: 0, passive: true, enabled: true }
+    - { interface: "Loopback0", desc: "Router ID", ip: "10.255.255.3", mask: "255.255.255.255", area: 0, passive: true, enabled: true } 
+
+# Set variables for the current host
+interfaces: "{{ vars[inventory_hostname].interfaces }}"
+router_id: "{{ vars[inventory_hostname].router_id }}"
